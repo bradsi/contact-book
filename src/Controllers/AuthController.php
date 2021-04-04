@@ -1,5 +1,5 @@
 <?php
-namespace Bradsi;
+namespace Bradsi\Controllers;
 
 class AuthController {
     public function register(){

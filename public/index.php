@@ -5,7 +5,8 @@ require $upOne . '/vendor/autoload.php';
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-use Bradsi\AuthController;
+use Bradsi\Controllers\AuthController;
+use Bradsi\Models\DbConnectionManager;
 
 // create logger
 $logger = new Logger('app');
@@ -19,8 +20,10 @@ if (isset($_GET['action'])) {
     $logger->debug('action is not set, value: ' . $request);
 }
 
+$controllerName = null;
+$methodName = null;
 
-$templates = new League\Plates\Engine('../src/views/');
+$templates = new League\Plates\Engine('../src/Views/');
 
 switch ($request) {
     case '/' :
@@ -40,16 +43,25 @@ switch ($request) {
         break;
     case 'registerNewUser' :
         $logger->debug('inside switch case: registerNewUser');
-        $controller = new AuthController();
-        $controller->register();
+        $controllerName = AuthController::class;
+        $methodName = 'register';
         break;
     case 'loginUser':
         $logger->debug('inside switch case: loginUser');
-        $controller = new AuthController();
-        $controller->login();
+        $controllerName = AuthController::class;
+        $methodName = 'login';
         break;
     default:
         http_response_code(404);
         echo $templates->render('pages/404');
         break;
+}
+
+$db = new DbConnectionManager();
+$dbConnection = null;
+if ($db) $dbConnection = $db->connect();
+
+if ($controllerName && $methodName) {
+    $controller = new $controllerName();
+    $controller->$methodName();
 }

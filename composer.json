@@ -9,7 +9,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Bradsi\\": "src/controllers/"
+            "Bradsi\\": "src/"
         }
     },
     "require-dev": {
