@@ -41,6 +41,9 @@ switch ($request) {
     case '/login' :
         echo $templates->render('auth/login');
         break;
+    case '/dashboard':
+        echo 'Dashboard';
+        break;
     case 'registerNewUser' :
         $logger->debug('inside switch case: registerNewUser');
         $controllerName = AuthController::class;
@@ -63,5 +66,5 @@ if ($db) $dbConnection = $db->connect();
 
 if ($controllerName && $methodName) {
     $controller = new $controllerName();
-    $controller->$methodName();
+    $controller->$methodName($_REQUEST);
 }

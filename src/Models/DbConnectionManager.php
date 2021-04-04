@@ -23,4 +23,21 @@ class DbConnectionManager {
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         return $pdo;
     }
+
+    public function loginUser($email, $pwd): bool {
+        $sql = "SELECT first_name, password FROM users WHERE email = ?;";
+        $pdo = $this->connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$email]);
+        $row = $stmt->fetch();
+
+        // Verify password
+        $pwdMatch = password_verify($pwd, $row['password']);
+
+        if ($pwdMatch) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
