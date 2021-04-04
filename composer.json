@@ -1,0 +1,13 @@
+{
+    "name": "bradsi/contact-book",
+    "description": "PHP MVC No Framework Project",
+    "authors": [
+        {
+            "name": "Brad Singleton",
+            "email": "29055518+bradsingleton@users.noreply.github.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
