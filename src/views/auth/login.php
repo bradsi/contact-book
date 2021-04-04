@@ -6,7 +6,7 @@ $this->layout('layout', [
 ?>
 <div class="w-50 mx-auto">
     <h1 class="mb-4">Login</h1>
-    <form action="#" method="post">
+    <form action="/?action=loginUser" method="post">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" name="email" required>

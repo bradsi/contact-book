@@ -43,6 +43,11 @@ switch ($request) {
         $controller = new AuthController();
         $controller->register();
         break;
+    case 'loginUser':
+        $logger->debug('inside switch case: loginUser');
+        $controller = new AuthController();
+        $controller->login();
+        break;
     default:
         http_response_code(404);
         echo $templates->render('pages/404');
