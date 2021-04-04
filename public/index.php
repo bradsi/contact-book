@@ -10,6 +10,12 @@ $logger = new Logger('app');
 $logger->pushHandler(new StreamHandler('../app.log', Logger::DEBUG));
 
 $request = $_SERVER['REQUEST_URI'];
+if (isset($_GET['action'])) {
+    $request = $_GET['action'];
+    $logger->debug('action is set, value: ' . $request);
+} else {
+    $logger->debug('action is not set, value: ' . $request);
+}
 
 
 $templates = new League\Plates\Engine('../src/views/');
@@ -29,6 +35,11 @@ switch ($request) {
         break;
     case '/login' :
         echo $templates->render('auth/login');
+        break;
+    case 'registerNewUser' :
+        $logger->debug('inside switch case: registerNewUser');
+        $controller = new AuthController();
+        $controller->register();
         break;
     default:
         http_response_code(404);

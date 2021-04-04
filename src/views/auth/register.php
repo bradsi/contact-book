@@ -6,7 +6,7 @@ $this->layout('layout', [
 ?>
 <div class="w-50 mx-auto">
     <h1 class="mb-4">Register</h1>
-    <form action="#" method="post">
+    <form action="/?action=registerNewUser" method="post">
         <div class="mb-3">
             <label for="fName" class="form-label">First Name</label>
             <input type="text" class="form-control" id="fName" name="fName">
