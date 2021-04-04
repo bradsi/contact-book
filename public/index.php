@@ -4,10 +4,12 @@ require $upOne . '/vendor/autoload.php';
 
 $request = $_SERVER['REQUEST_URI'];
 
+$templates = new League\Plates\Engine('../src/views');
+
 switch ($request) {
     case '/' :
     case '':
-        require '../src/views/index.php';
+        echo $templates->render('index', ['name' => 'Brad']);
         break;
     case '/about' :
         require '../src/views/about.php';
