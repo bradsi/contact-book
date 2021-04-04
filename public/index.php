@@ -2,7 +2,15 @@
 $upOne = dirname(__DIR__, 1);
 require $upOne . '/vendor/autoload.php';
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+// create logger
+$logger = new Logger('app');
+$logger->pushHandler(new StreamHandler('../app.log', Logger::DEBUG));
+
 $request = $_SERVER['REQUEST_URI'];
+
 
 $templates = new League\Plates\Engine('../src/views/');
 

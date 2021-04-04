@@ -11,6 +11,7 @@
         "phpunit/phpunit": "^9.5"
     },
     "require": {
-        "league/plates": "^3.4"
+        "league/plates": "^3.4",
+        "monolog/monolog": "^2.2"
     }
 }
