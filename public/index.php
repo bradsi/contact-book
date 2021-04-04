@@ -16,6 +16,12 @@ switch ($request) {
     case '/about' :
         echo $templates->render('pages/about');
         break;
+    case '/register' :
+        echo $templates->render('auth/register');
+        break;
+    case '/login' :
+        echo $templates->render('auth/login');
+        break;
     default:
         http_response_code(404);
         echo $templates->render('pages/404');

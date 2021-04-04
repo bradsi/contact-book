@@ -40,11 +40,11 @@ if (isset($_SESSION["isLoggedIn"])) $isLoggedIn = $_SESSION["isLoggedIn"];
             </ul>
             <div>
                 <?= ($isLoggedIn) ?
-                    '<a href="#" class="px-4 btn btn-dark">Dashboard</a>
-                    <a href="#" class="btn btn-danger px-4">Logout</a>'
+                    '<a href="/dashboard" class="px-4 btn btn-dark">Dashboard</a>
+                    <a href="/logout" class="btn btn-danger px-4">Logout</a>'
                     :
-                    '<a href="#" class="px-4 btn btn-dark">Register</a>
-                    <a href="#" class="btn btn-success px-4">Login</a>'
+                    '<a href="/register" class="px-4 btn btn-dark">Register</a>
+                    <a href="/login" class="btn btn-success px-4">Login</a>'
                 ; ?>
 
             </div>
