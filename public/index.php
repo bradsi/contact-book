@@ -5,6 +5,8 @@ require $upOne . '/vendor/autoload.php';
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
+use Bradsi\AuthController;
+
 // create logger
 $logger = new Logger('app');
 $logger->pushHandler(new StreamHandler('../app.log', Logger::DEBUG));

@@ -7,6 +7,11 @@
             "email": "29055518+bradsingleton@users.noreply.github.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Bradsi\\": "src/controllers/"
+        }
+    },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
     },
