@@ -84,6 +84,17 @@ class DbConnectionManager {
         return $created ? true: false;
     }
 
+    public function getAllContactsById(): array {
+        $userId = $_SESSION['userId'];
+
+        $sql = "SELECT * FROM contacts WHERE user_id = ? ORDER BY created_on DESC;";
+        $pdo = $this->connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll();
+    }
+
     /*
      * Helpers
      */

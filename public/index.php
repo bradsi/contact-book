@@ -49,9 +49,13 @@ switch ($request) {
         $methodName = 'logout';
         break;
     case '/dashboard':
+        /*
         echo $templates->render('dashboard', [
             'name' => $_SESSION["fNameUser"]
         ]);
+        */
+        $controllerName = ContactController::class;
+        $methodName = 'readAll';
         break;
     case '/new-contact':
         echo $templates->render('contacts/new-contact');
