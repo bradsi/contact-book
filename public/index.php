@@ -2,6 +2,8 @@
 $upOne = dirname(__DIR__, 1);
 require $upOne . '/vendor/autoload.php';
 
+session_start();
+
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -42,7 +44,13 @@ switch ($request) {
         echo $templates->render('auth/login');
         break;
     case '/dashboard':
-        echo 'Dashboard';
+        echo $templates->render('dashboard', [
+            'name' => $_SESSION["fNameUser"]
+        ]);
+        break;
+    case '/logout':
+        $controllerName = AuthController::class;
+        $methodName = 'logout';
         break;
     case 'registerNewUser' :
         $logger->debug('inside switch case: registerNewUser');

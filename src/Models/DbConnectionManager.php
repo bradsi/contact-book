@@ -35,6 +35,9 @@ class DbConnectionManager {
         $pwdMatch = password_verify($pwd, $row['password']);
 
         if ($pwdMatch) {
+            $_SESSION["isLoggedIn"] = true;
+            $_SESSION["fNameUser"] = $row['first_name'];
+            $_SESSION["userId"] = $row['id'];
             return true;
         } else {
             return false;
