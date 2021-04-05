@@ -24,8 +24,11 @@ class DbConnectionManager {
         return $pdo;
     }
 
+    /*
+     * Authentication
+     */
     public function loginUser($email, $pwd): bool {
-        $sql = "SELECT first_name, password FROM users WHERE email = ?;";
+        $sql = "SELECT * FROM users WHERE email = ?;";
         $pdo = $this->connect();
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email]);
@@ -66,6 +69,24 @@ class DbConnectionManager {
         }
     }
 
+    /*
+     * Contacts
+     */
+    public function createContact($fName, $lName): bool {
+        $userId = $_SESSION['userId'];
+
+        $sql = "INSERT INTO contacts (first_name, last_name, user_id) VALUES (?, ?, ?);";
+        $pdo = $this->connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$fName, $lName, $userId]);
+        $created = $stmt->rowCount();
+
+        return $created ? true: false;
+    }
+
+    /*
+     * Helpers
+     */
     private function checkUsernameUnique($username): bool {
         $sql = "SELECT username FROM users WHERE username=?;";
         $pdo = $this->connect();

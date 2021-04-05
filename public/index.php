@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 use Bradsi\Controllers\AuthController;
+use Bradsi\Controllers\ContactController;
 use Bradsi\Models\DbConnectionManager;
 
 // create logger
@@ -43,14 +44,21 @@ switch ($request) {
     case '/login' :
         echo $templates->render('auth/login');
         break;
+    case '/logout':
+        $controllerName = AuthController::class;
+        $methodName = 'logout';
+        break;
     case '/dashboard':
         echo $templates->render('dashboard', [
             'name' => $_SESSION["fNameUser"]
         ]);
         break;
-    case '/logout':
-        $controllerName = AuthController::class;
-        $methodName = 'logout';
+    case '/new-contact':
+        echo $templates->render('contacts/new-contact');
+        break;
+    case 'newContact':
+        $controllerName = ContactController::class;
+        $methodName = 'create';
         break;
     case 'registerNewUser' :
         $logger->debug('inside switch case: registerNewUser');
