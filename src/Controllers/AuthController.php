@@ -5,9 +5,21 @@ use Bradsi\Models\DbConnectionManager;
 use JetBrains\PhpStorm\NoReturn;
 
 class AuthController {
-    #[NoReturn] public function register(): void{
-        echo 'Inside AuthController->register()';
-        exit(header("Location: ../testing-register"));
+    #[NoReturn] public function register($request): void{
+        $fName = $request['fName'];
+        $lName = $request['lName'];
+        $email = $request['email'];
+        $username = $request['username'];
+        $pwd = $request['password'];
+
+        $db = new DbConnectionManager();
+        $registerSuccessful = $db->registerUser($fName, $lName, $email, $username, $pwd);
+
+        if ($registerSuccessful) {
+            exit(header("Location: ../login"));
+        } else {
+            exit(header("Location: ../register"));
+        }
     }
 
     #[NoReturn] public function login($request): void{
