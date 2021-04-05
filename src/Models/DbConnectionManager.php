@@ -95,6 +95,16 @@ class DbConnectionManager {
         return $stmt->fetchAll();
     }
 
+    public function deleteContactById($id): bool {
+        $sql = "DELETE FROM contacts WHERE id = ?;";
+        $pdo = $this->connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $deleted = $stmt->rowCount();
+
+        return $deleted ? true : false;
+    }
+
     /*
      * Helpers
      */

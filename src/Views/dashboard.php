@@ -28,9 +28,9 @@ $this->layout('layout', [
             </form>
 
 
-            <form class="d-inline" action="#" method="post">
+            <form class="d-inline" action="/?action=deleteContact" method="post">
                 <!-- user could change value on frontend, need to validate on server -->
-                <input type="number" name="id" hidden value="<?= $this->e($post['id']) ?>">
+                <input type="number" name="contactId" hidden value="<?= $this->e($post['id']) ?>">
                 <button type="submit" name="delete" class="btn btn-sm btn-outline-danger">Delete</button>
             </form>
 

@@ -57,6 +57,10 @@ switch ($request) {
         $controllerName = ContactController::class;
         $methodName = 'readAll';
         break;
+    case 'deleteContact':
+        $controllerName = ContactController::class;
+        $methodName = 'deleteContact';
+        break;
     case '/new-contact':
         echo $templates->render('contacts/new-contact');
         break;

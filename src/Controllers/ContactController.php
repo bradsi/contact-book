@@ -39,4 +39,17 @@ class ContactController {
             'posts' => $posts
         ]);
     }
+
+    #[NoReturn] public function deleteContact($request){
+        $id = $request['contactId'];
+
+        $db = new DbConnectionManager();
+        $deleteSuccessful = $db->deleteContactById($id);
+
+        if ($deleteSuccessful) {
+            exit(header("Location: ../dashboard"));
+        } else {
+            exit(header("Location: ../new-contact?msg=delete-error"));
+        }
+    }
 }
