@@ -21,9 +21,11 @@ $this->layout('layout', [
         </div>
 
         <div class="card-footer" style="text-align: right;">
-            <form class="d-inline" action="#" method="post">
+            <form class="d-inline" action="/edit-contact" method="post">
                 <!-- user could change value on frontend, need to validate on server -->
-                <input type="number" name="id" hidden value="<?= $this->e($post['id']) ?>">
+                <input type="number" name="contactId" hidden value="<?= $this->e($post['id']) ?>">
+                <input type="text" name="fName" hidden value="<?= $this->e($post['first_name']) ?>">
+                <input type="text" name="lName" hidden value="<?= $this->e($post['last_name']) ?>">
                 <button type="submit" name="edit" class="btn btn-sm btn-outline-primary">Edit</button>
             </form>
 

@@ -1,6 +1,7 @@
 <?php
 namespace Bradsi\Models;
 
+use JetBrains\PhpStorm\NoReturn;
 use PDO;
 
 class DbConnectionManager {
@@ -103,6 +104,20 @@ class DbConnectionManager {
         $deleted = $stmt->rowCount();
 
         return $deleted ? true : false;
+    }
+
+    #[NoReturn] public function editContactById($id, $fName, $lName): void {
+        $sql = "UPDATE contacts SET first_name = ?, last_name = ? WHERE id = ?;";
+        $pdo = $this->connect();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$fName, $lName, $id]);
+        $edited = $stmt->rowCount();
+
+        if ($edited) {
+            exit(header("Location: ../dashboard.php"));
+        } else {
+            exit(header("Location: ../dashboard.php"));
+        }
     }
 
     /*

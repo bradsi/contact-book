@@ -49,17 +49,23 @@ switch ($request) {
         $methodName = 'logout';
         break;
     case '/dashboard':
-        /*
-        echo $templates->render('dashboard', [
-            'name' => $_SESSION["fNameUser"]
-        ]);
-        */
         $controllerName = ContactController::class;
         $methodName = 'readAll';
         break;
     case 'deleteContact':
         $controllerName = ContactController::class;
         $methodName = 'deleteContact';
+        break;
+    case '/edit-contact':
+        echo $templates->render('contacts/edit-contact', [
+            'id' => $_REQUEST['contactId'],
+            'fName' => $_REQUEST['fName'],
+            'lName' => $_REQUEST['lName']
+        ]);
+        break;
+    case 'editContact':
+        $controllerName = ContactController::class;
+        $methodName = 'editContact';
         break;
     case '/new-contact':
         echo $templates->render('contacts/new-contact');

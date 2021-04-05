@@ -52,4 +52,13 @@ class ContactController {
             exit(header("Location: ../new-contact?msg=delete-error"));
         }
     }
+
+    #[NoReturn] public function editContact($request) {
+        $id = $request['contactId'];
+        $fName = $request['fName'];
+        $lName = $request['lName'];
+
+        $db = new DbConnectionManager();
+        $db->editContactById($id, $fName, $lName);
+    }
 }
