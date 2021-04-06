@@ -17,10 +17,9 @@ PHP MVC web app (no framework) built for learning purposes. Currently under deve
 - Plates (views)
 - PHPUnit (unit testing)
 
-## 🛠 TODO
+## 📈 Things to Improve
 - Update design
-- Add form validation for:
-  - CRUD operations
+- Add form validation for CRUD operations
 - Refactor duplicate code
-- Refactor `Helpers` controllers to be used across `AuthController` and `ContactController`    
-- Add unit tests
+- Add more unit tests
+- Add more info for contacts
