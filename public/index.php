@@ -4,23 +4,15 @@ require $upOne . '/vendor/autoload.php';
 
 session_start();
 
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
 use Bradsi\Controllers\AuthController;
 use Bradsi\Controllers\ContactController;
-use Bradsi\Models\DbConnectionManager;
-
-// create logger
-$logger = new Logger('app');
-$logger->pushHandler(new StreamHandler('../app.log', Logger::DEBUG));
 
 $request = $_SERVER['REQUEST_URI'];
 if (isset($_GET['action'])) {
     $request = $_GET['action'];
-    $logger->debug('action is set, value: ' . $request);
+    error_log('action is set, value: ' . $request);
 } else {
-    $logger->debug('action is not set, value: ' . $request);
+    error_log('action is not set, value: ' . $request);
 }
 
 $controllerName = null;
@@ -31,9 +23,7 @@ $templates = new League\Plates\Engine('../src/Views/');
 switch ($request) {
     case '/' :
     case '':
-        echo $templates->render('pages/index', [
-            'name' => 'Brad',
-        ]);
+        echo $templates->render('pages/index');
         break;
     case '/about' :
         echo $templates->render('pages/about');
@@ -75,12 +65,10 @@ switch ($request) {
         $methodName = 'create';
         break;
     case 'registerNewUser' :
-        $logger->debug('inside switch case: registerNewUser');
         $controllerName = AuthController::class;
         $methodName = 'register';
         break;
     case 'loginUser':
-        $logger->debug('inside switch case: loginUser');
         $controllerName = AuthController::class;
         $methodName = 'login';
         break;
@@ -89,10 +77,6 @@ switch ($request) {
         echo $templates->render('pages/404');
         break;
 }
-
-$db = new DbConnectionManager();
-$dbConnection = null;
-if ($db) $dbConnection = $db->connect();
 
 if ($controllerName && $methodName) {
     $controller = new $controllerName();

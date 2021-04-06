@@ -25,4 +25,3 @@ PHP MVC web app (no framework) built for learning purposes. Currently under deve
 - Refactor duplicate code
 - Refactor `Helpers` controllers to be used across `AuthController` and `ContactController`    
 - Add unit tests
-- Cleanup / remove logging
