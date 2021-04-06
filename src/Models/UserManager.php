@@ -4,6 +4,14 @@ namespace Bradsi\Models;
 
 class UserManager extends DbConnectionManager {
 
+    /**
+     * Login a user.
+     * Returns true if login successful, false if error.
+     *
+     * @param $email
+     * @param $pwd
+     * @return bool
+     */
     public function loginUser($email, $pwd): bool {
         $sql = "SELECT * FROM users WHERE email = ?;";
         $pdo = $this->connect();
@@ -11,56 +19,55 @@ class UserManager extends DbConnectionManager {
         $stmt->execute([$email]);
         $row = $stmt->fetch();
 
-        // Verify password
         $pwdMatch = password_verify($pwd, $row['password']);
 
         if ($pwdMatch) {
             $_SESSION["isLoggedIn"] = true;
             $_SESSION["fNameUser"] = $row['first_name'];
             $_SESSION["userId"] = $row['id'];
-            return true;
-        } else {
-            return false;
         }
+
+        return $pwdMatch;
     }
 
+    /**
+     * Register a new user.
+     * Returns true if user registered successfully, false if error.
+     *
+     * @param $fName
+     * @param $lName
+     * @param $email
+     * @param $username
+     * @param $pwd
+     * @return bool
+     */
     public function registerUser($fName, $lName, $email, $username, $pwd): bool {
         $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
-        $usernameCheck = $this->checkUsernameUnique($username);
-        $emailCheck = $this->checkEmailUnique($email);
 
-        if (!$usernameCheck || !$emailCheck) {
-            return false;
-        }
+        if ($this->isValueDuplicate('email', $email)) return false;
+        if ($this->isValueDuplicate('password', $pwd)) return false;
 
         $sql = "INSERT INTO users (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?);";
         $pdo = $this->connect();
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$fName, $lName, $email, $username, $hashedPwd]);
-        $registerSuccess = $stmt->rowCount();
 
-        return ($registerSuccess) ? true : false;
+        return ($stmt->rowCount()) ? true : false;
     }
 
-    /*
-     * Helpers
-    */
-    private function checkUsernameUnique($username): bool {
-        $sql = "SELECT username FROM users WHERE username=?;";
+    /**
+     * Check if email/password already exists in the db.
+     * Returns true if duplicate, false if unique.
+     *
+     * @param string $column
+     * @param string $value
+     * @return bool
+     */
+    private function isValueDuplicate(string $column, string $value): bool {
+        $sql = "SELECT ".$column." FROM users WHERE ".$column."=?;";
         $pdo = $this->connect();
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$username]);
-
-        return !$stmt->fetch();
-    }
-
-    // Refactor according to DRY
-    private function checkEmailUnique($email): bool {
-        $sql = "SELECT email FROM users WHERE email=?;";
-        $pdo = $this->connect();
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$email]);
-
-        return !$stmt->fetch();
+        $stmt->execute([$value]);
+        return $stmt->fetch();
     }
 }
