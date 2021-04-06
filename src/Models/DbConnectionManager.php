@@ -10,7 +10,16 @@ class DbConnectionManager {
     private $db;
 
     public function __construct() {
+        // Path is relative to where the constructor is called. Example:
+        // For auth, path needs to be '../config.ini'
+        // For tests, path needs to be 'config.ini'
+
+        // Comment out the below if running app
+        // $ini = parse_ini_file('config.ini');
+
+        // Comment out the below if running tests
         $ini = parse_ini_file('../config.ini');
+
         $this->host = $ini['db_host'];
         $this->user = $ini['db_user'];
         $this->pass = $ini['db_pass'];
