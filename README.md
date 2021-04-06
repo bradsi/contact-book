@@ -15,7 +15,6 @@ PHP MVC web app (no framework) built for learning purposes. Currently under deve
 
 ## ⚙ Libraries Used
 - Plates (views)
-- Monolog (logging)
 - PHPUnit (unit testing)
 
 ## 🛠 TODO
