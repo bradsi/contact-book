@@ -11,32 +11,33 @@ use League\Plates\Engine;
 
 class ContactController {
     private Engine $templates;
+    private ContactManager $cm;
 
     public function __construct(){
         $this->templates = new Engine('../src/Views/');
+        $this->cm = new ContactManager();
     }
 
     #[NoReturn] public function create($request): void {
         $fName = $request['fName'];
         $lName = $request['lName'];
 
-        $cm = new ContactManager();
-        $creationSuccessful = $cm->createContact($fName, $lName);
-
+        $creationSuccessful = $this->cm->createContact($fName, $lName);
         if ($creationSuccessful) {
             exit(header("Location: ../dashboard"));
-        } else {
-            exit(header("Location: ../new-contact"));
         }
+
+        echo $this->templates->render('contacts/new-contact', [
+            'error' => 'An unexpected error occurred.'
+        ]);
     }
 
     public function readAll() {
-        $cm = new ContactManager();
-        $posts = $cm->getAllContactsById();
+        $contacts = $this->cm->getAllContactsById();
 
         echo $this->templates->render('dashboard', [
             'name' => $_SESSION["fNameUser"],
-            'posts' => $posts
+            'contacts' => $contacts
         ]);
     }
 
@@ -45,20 +46,15 @@ class ContactController {
         $fName = $request['fName'];
         $lName = $request['lName'];
 
-        $cm = new ContactManager();
-        $cm->editContactById($id, $fName, $lName);
+        $this->cm->editContactById($id, $fName, $lName);
     }
 
     #[NoReturn] public function deleteContact($request){
         $id = $request['contactId'];
 
-        $cm = new ContactManager();
-        $deleteSuccessful = $cm->deleteContactById($id);
-
+        $deleteSuccessful = $this->cm->deleteContactById($id);
         if ($deleteSuccessful) {
             exit(header("Location: ../dashboard"));
-        } else {
-            exit(header("Location: ../new-contact?msg=delete-error"));
         }
     }
 }

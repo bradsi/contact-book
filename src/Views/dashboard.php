@@ -12,27 +12,27 @@ $this->layout('layout', [
     <a href="/new-contact" class="text-decoration-none text-white">Add Contact</a>
 </button>
 
-<?php foreach($posts as $post) :?>
+<?php foreach($contacts as $contact) :?>
     <div class="card mb-5">
         <div class="card-body">
             <p class="card-text">
-                <?= $this->e($post['first_name']) . ' ' . $this->e($post['last_name']) ?>
+                <?= $this->e($contact['first_name']) . ' ' . $this->e($contact['last_name']) ?>
             </p>
         </div>
 
         <div class="card-footer" style="text-align: right;">
             <form class="d-inline" action="/edit-contact" method="post">
                 <!-- user could change value on frontend, need to validate on server -->
-                <input type="number" name="contactId" hidden value="<?= $this->e($post['id']) ?>">
-                <input type="text" name="fName" hidden value="<?= $this->e($post['first_name']) ?>">
-                <input type="text" name="lName" hidden value="<?= $this->e($post['last_name']) ?>">
+                <input type="number" name="contactId" hidden value="<?= $this->e($contact['id']) ?>">
+                <input type="text" name="fName" hidden value="<?= $this->e($contact['first_name']) ?>">
+                <input type="text" name="lName" hidden value="<?= $this->e($contact['last_name']) ?>">
                 <button type="submit" name="edit" class="btn btn-sm btn-outline-primary">Edit</button>
             </form>
 
 
             <form class="d-inline" action="/?action=deleteContact" method="post">
                 <!-- user could change value on frontend, need to validate on server -->
-                <input type="number" name="contactId" hidden value="<?= $this->e($post['id']) ?>">
+                <input type="number" name="contactId" hidden value="<?= $this->e($contact['id']) ?>">
                 <button type="submit" name="delete" class="btn btn-sm btn-outline-danger">Delete</button>
             </form>
 
