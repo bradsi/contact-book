@@ -12,15 +12,16 @@ $this->layout('layout', [
     <a href="/new-contact" class="text-decoration-none text-white">Add Contact</a>
 </button>
 
+<div class="d-flex flex-wrap">
 <?php foreach($contacts as $contact) :?>
-    <div class="card mb-5">
+    <div class="card m-3" style="width: 220px;">
         <div class="card-body">
-            <p class="card-text">
+            <p class="card-text text-center">
                 <?= $this->e($contact['first_name']) . ' ' . $this->e($contact['last_name']) ?>
             </p>
         </div>
 
-        <div class="card-footer" style="text-align: right;">
+        <div class="card-footer text-center">
             <form class="d-inline" action="/edit-contact" method="post">
                 <!-- user could change value on frontend, need to validate on server -->
                 <input type="number" name="contactId" hidden value="<?= $this->e($contact['id']) ?>">
@@ -39,3 +40,4 @@ $this->layout('layout', [
         </div>
     </div>
 <?php endforeach; ?>
+</div>
