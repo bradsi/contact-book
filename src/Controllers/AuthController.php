@@ -3,8 +3,15 @@ namespace Bradsi\Controllers;
 
 use Bradsi\Models\DbConnectionManager;
 use JetBrains\PhpStorm\NoReturn;
+use League\Plates\Engine;
 
-class AuthController {
+class AuthController extends Helpers {
+    private Engine $templates;
+
+    public function __construct(){
+        $this->templates = new Engine('../src/Views/');
+    }
+
     #[NoReturn] public function register($request): void{
         $fName = $request['fName'];
         $lName = $request['lName'];
@@ -22,9 +29,27 @@ class AuthController {
         }
     }
 
-    #[NoReturn] public function login($request): void{
+    #[NoReturn] public function login($request){
         $loginEmail = $request['email'];
         $loginPwd = $request['password'];
+
+        /*
+         * Error handling
+         */
+        if ($this->hasEmptyValues(array($loginEmail, $loginPwd))) {
+            echo $this->templates->render('auth/login', [
+                'error' => 'Please fill out the form completely.'
+            ]);
+            return;
+        }
+
+        if ($this->emailInvalid($loginEmail)) {
+            echo $this->templates->render('auth/login', [
+                'error' => 'The email is invalid.'
+            ]);
+            return;
+        }
+
         $db = new DbConnectionManager();
         $loginSuccessful = $db->loginUser($loginEmail, $loginPwd);
         if ($loginSuccessful) {
