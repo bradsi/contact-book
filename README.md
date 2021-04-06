@@ -20,8 +20,8 @@ PHP MVC web app (no framework) built for learning purposes. Currently under deve
 
 ## 🛠 TODO
 - Update design
-- Add form validation
-- Improve error handling
+- Add form validation for:
+  - CRUD operations
 - Refactor duplicate code
 - Refactor `Helpers` controllers to be used across `AuthController` and `ContactController`    
 - Add unit tests

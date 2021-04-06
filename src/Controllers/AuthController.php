@@ -5,7 +5,7 @@ use Bradsi\Models\UserManager;
 use JetBrains\PhpStorm\NoReturn;
 use League\Plates\Engine;
 
-class AuthController extends Helpers {
+class AuthController {
     private Engine $templates;
     private UserManager $um;
 
@@ -21,14 +21,16 @@ class AuthController extends Helpers {
         $username = $request['username'];
         $pwd = $request['password'];
 
-        $registerSuccessful = $this->um->registerUser($fName, $lName, $email, $username, $pwd);
-        if ($registerSuccessful) {
-            echo $this->templates->render('auth/login');
+        $registerResult = $this->um->registerUser($fName, $lName, $email, $username, $pwd);
+        if ($registerResult === true) {
+            echo $this->templates->render('auth/login', [
+                'success' => 'Account registered successfully, you may now login.'
+            ]);
             return;
         }
 
         echo $this->templates->render('auth/register', [
-            'error' => 'An unexpected error occurred.'
+            'error' => $registerResult
         ]);
     }
 
@@ -36,30 +38,13 @@ class AuthController extends Helpers {
         $loginEmail = $request['email'];
         $loginPwd = $request['password'];
 
-        /*
-         * Error handling
-         */
-        if ($this->hasEmptyValues(array($loginEmail, $loginPwd))) {
-            echo $this->templates->render('auth/login', [
-                'error' => 'Please fill out the form completely.'
-            ]);
-            return;
-        }
-
-        if ($this->emailInvalid($loginEmail)) {
-            echo $this->templates->render('auth/login', [
-                'error' => 'The email is invalid.'
-            ]);
-            return;
-        }
-
-        $loginSuccessful = $this->um->loginUser($loginEmail, $loginPwd);
-        if ($loginSuccessful) {
+        $loginResult = $this->um->loginUser($loginEmail, $loginPwd);
+        if ($loginResult === true) {
             exit(header("Location: ../dashboard"));
         }
 
         echo $this->templates->render('auth/login', [
-            'error' => 'An unexpected error occurred.'
+            'error' => $loginResult
         ]);
     }
 

@@ -6,6 +6,13 @@ $this->layout('layout', [
 ?>
 <div class="w-50 mx-auto">
     <h1 class="mb-4">Register</h1>
+
+    <?php if (isset($error)) :?>
+        <div class="alert alert-danger">
+            <?= $this->e($error); ?>
+        </div>
+    <?php endif ;?>
+
     <form action="/?action=registerNewUser" method="post">
         <div class="mb-3">
             <label for="fName" class="form-label">First Name</label>

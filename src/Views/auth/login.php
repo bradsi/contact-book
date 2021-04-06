@@ -13,6 +13,12 @@ $this->layout('layout', [
     </div>
     <?php endif ;?>
 
+    <?php if (isset($success)) :?>
+        <div class="alert alert-success">
+            <?= $this->e($success); ?>
+        </div>
+    <?php endif ;?>
+
     <form action="/?action=loginUser" method="post">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
