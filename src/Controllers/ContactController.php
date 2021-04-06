@@ -1,10 +1,10 @@
 <?php
 namespace Bradsi\Controllers;
 
-$upOne = dirname(__DIR__, 2);
-require $upOne . '/vendor/autoload.php';
+$upTwo = dirname(__DIR__, 2);
+require $upTwo . '/vendor/autoload.php';
 
-use Bradsi\Models\DbConnectionManager;
+use Bradsi\Models\ContactManager;
 use JetBrains\PhpStorm\NoReturn;
 use League\Plates\Engine;
 
@@ -20,8 +20,8 @@ class ContactController {
         $fName = $request['fName'];
         $lName = $request['lName'];
 
-        $db = new DbConnectionManager();
-        $creationSuccessful = $db->createContact($fName, $lName);
+        $cm = new ContactManager();
+        $creationSuccessful = $cm->createContact($fName, $lName);
 
         if ($creationSuccessful) {
             exit(header("Location: ../dashboard"));
@@ -31,8 +31,8 @@ class ContactController {
     }
 
     public function readAll() {
-        $db = new DbConnectionManager();
-        $posts = $db->getAllContactsById();
+        $cm = new ContactManager();
+        $posts = $cm->getAllContactsById();
 
         echo $this->templates->render('dashboard', [
             'name' => $_SESSION["fNameUser"],
@@ -40,25 +40,25 @@ class ContactController {
         ]);
     }
 
+    #[NoReturn] public function editContact($request) {
+        $id = $request['contactId'];
+        $fName = $request['fName'];
+        $lName = $request['lName'];
+
+        $cm = new ContactManager();
+        $cm->editContactById($id, $fName, $lName);
+    }
+
     #[NoReturn] public function deleteContact($request){
         $id = $request['contactId'];
 
-        $db = new DbConnectionManager();
-        $deleteSuccessful = $db->deleteContactById($id);
+        $cm = new ContactManager();
+        $deleteSuccessful = $cm->deleteContactById($id);
 
         if ($deleteSuccessful) {
             exit(header("Location: ../dashboard"));
         } else {
             exit(header("Location: ../new-contact?msg=delete-error"));
         }
-    }
-
-    #[NoReturn] public function editContact($request) {
-        $id = $request['contactId'];
-        $fName = $request['fName'];
-        $lName = $request['lName'];
-
-        $db = new DbConnectionManager();
-        $db->editContactById($id, $fName, $lName);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Bradsi\Controllers;
 
-use Bradsi\Models\DbConnectionManager;
+use Bradsi\Models\UserManager;
 use JetBrains\PhpStorm\NoReturn;
 use League\Plates\Engine;
 
@@ -19,8 +19,8 @@ class AuthController extends Helpers {
         $username = $request['username'];
         $pwd = $request['password'];
 
-        $db = new DbConnectionManager();
-        $registerSuccessful = $db->registerUser($fName, $lName, $email, $username, $pwd);
+        $um = new UserManager();
+        $registerSuccessful = $um->registerUser($fName, $lName, $email, $username, $pwd);
 
         if ($registerSuccessful) {
             exit(header("Location: ../login"));
@@ -50,8 +50,8 @@ class AuthController extends Helpers {
             return;
         }
 
-        $db = new DbConnectionManager();
-        $loginSuccessful = $db->loginUser($loginEmail, $loginPwd);
+        $um = new UserManager();
+        $loginSuccessful = $um->loginUser($loginEmail, $loginPwd);
         if ($loginSuccessful) {
             exit(header("Location: ../dashboard"));
         } else {
