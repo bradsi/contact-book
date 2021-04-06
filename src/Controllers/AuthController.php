@@ -7,9 +7,11 @@ use League\Plates\Engine;
 
 class AuthController extends Helpers {
     private Engine $templates;
+    private UserManager $um;
 
     public function __construct(){
         $this->templates = new Engine('../src/Views/');
+        $this->um = new UserManager();
     }
 
     #[NoReturn] public function register($request): void{
@@ -19,17 +21,18 @@ class AuthController extends Helpers {
         $username = $request['username'];
         $pwd = $request['password'];
 
-        $um = new UserManager();
-        $registerSuccessful = $um->registerUser($fName, $lName, $email, $username, $pwd);
-
+        $registerSuccessful = $this->um->registerUser($fName, $lName, $email, $username, $pwd);
         if ($registerSuccessful) {
-            exit(header("Location: ../login"));
-        } else {
-            exit(header("Location: ../register"));
+            echo $this->templates->render('auth/login');
+            return;
         }
+
+        echo $this->templates->render('auth/register', [
+            'error' => 'An unexpected error occurred.'
+        ]);
     }
 
-    #[NoReturn] public function login($request){
+    #[NoReturn] public function login($request): void {
         $loginEmail = $request['email'];
         $loginPwd = $request['password'];
 
@@ -50,18 +53,19 @@ class AuthController extends Helpers {
             return;
         }
 
-        $um = new UserManager();
-        $loginSuccessful = $um->loginUser($loginEmail, $loginPwd);
+        $loginSuccessful = $this->um->loginUser($loginEmail, $loginPwd);
         if ($loginSuccessful) {
             exit(header("Location: ../dashboard"));
-        } else {
-            exit(header("Location: ../login"));
         }
+
+        echo $this->templates->render('auth/login', [
+            'error' => 'An unexpected error occurred.'
+        ]);
     }
 
-    #[NoReturn] public function logout(): void{
+    #[NoReturn] public function logout(): void {
         $_SESSION = array();
         session_destroy();
-        exit(header("Location: ../"));
+        echo $this->templates->render('pages/index');
     }
 }
