@@ -7,12 +7,6 @@ PHP MVC web app (no framework) built for learning purposes. Currently under deve
 - CRUD operations
 - Authentication
 
-**Live demo:** *TBU*  
-**Demo email:** demo@example.com  
-**Demo password:** test123  
-
-*Screenshot/GIF TBU*
-
 ## ⚙ Libraries Used
 - Plates (views)
 - PHPUnit (unit testing)
